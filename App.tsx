@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from "react-native";
+import AppText from "./src/components/texts/AppText";
+import AppSafeView from "./src/components/views/AppSafeView";
+import FlashMessage, { showMessage } from "react-native-flash-message";
+import AppButton from "./src/components/buttons/AppButton";
+import AppTextInput from "./src/components/inputs/AppTextInput";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      {/* showMessage() triggers */}
+      <FlashMessage position="top" />
+
+      <AppSafeView style={styles.container}>
+        <AppTextInput
+          value={""}
+          placeholder="Enter text"
+          onChangeText={function (text: string): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      </AppSafeView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  container: {},
 });
