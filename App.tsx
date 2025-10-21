@@ -4,6 +4,7 @@ import AppSafeView from "./src/components/views/AppSafeView";
 import FlashMessage, { showMessage } from "react-native-flash-message";
 import AppButton from "./src/components/buttons/AppButton";
 import AppTextInput from "./src/components/inputs/AppTextInput";
+import SignInScreen from "./src/screens/auth/SignInScreen";
 
 export default function App() {
   return (
@@ -11,15 +12,7 @@ export default function App() {
       {/* showMessage() triggers */}
       <FlashMessage position="top" />
 
-      <AppSafeView style={styles.container}>
-        <AppTextInput
-          value={""}
-          placeholder="Enter text"
-          onChangeText={function (text: string): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      </AppSafeView>
+      <SignInScreen />
     </>
   );
 }
