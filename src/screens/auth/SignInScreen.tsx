@@ -27,12 +27,19 @@ const SignInScreen = () => {
       />
       <AppText style={styles.appName}>Smart E-Commerce</AppText>
 
-      <AppButton title="Login" onPress={() => {console.log("Login pressed")}}/>
+      <AppButton
+        title="Login"
+        onPress={() => {
+          navigation.navigate("MainAppBottomTabs");
+        }}
+      />
       <AppButton
         title="Sign Up"
         style={styles.registerButton}
         textColor={AppColors.primary}
-        onPress={() => {navigation.navigate("SignUpScreen")}}
+        onPress={() => {
+          navigation.navigate("SignUpScreen");
+        }}
       />
     </AppSafeView>
   );

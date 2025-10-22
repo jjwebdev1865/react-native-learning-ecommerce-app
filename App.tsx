@@ -1,13 +1,7 @@
 import { StyleSheet } from "react-native";
-import AppText from "./src/components/texts/AppText";
-import AppSafeView from "./src/components/views/AppSafeView";
-import FlashMessage, { showMessage } from "react-native-flash-message";
-import AppButton from "./src/components/buttons/AppButton";
-import AppTextInput from "./src/components/inputs/AppTextInput";
-import SignInScreen from "./src/screens/auth/SignInScreen";
-import SignUpScreen from "./src/screens/auth/SignUpScreen";
-import AuthStack from "./src/navigation/AuthStack";
+import FlashMessage from "react-native-flash-message";
 import { NavigationContainer } from "@react-navigation/native";
+import MainAppStack from "./src/navigation/MainAppStack";
 
 export default function App() {
   return (
@@ -16,12 +10,10 @@ export default function App() {
         {/* showMessage() triggers */}
         <FlashMessage position="top" />
 
-        <AuthStack />
+        <MainAppStack />
       </NavigationContainer>
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {},
-});
+const styles = StyleSheet.create({});
