@@ -2,7 +2,6 @@ import {
   StyleSheet,
   View,
   SafeAreaView,
-  Platform,
   StatusBar,
   ViewStyle,
 } from "react-native";
