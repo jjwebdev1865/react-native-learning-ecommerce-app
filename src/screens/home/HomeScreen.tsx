@@ -1,20 +1,20 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import AppSafeView from "../../components/views/AppSafeView";
 import HomeHeader from "../../components/headers/HomeHeader";
-import { AppFonts } from "../../styles/fonts";
+import ProductCard from "../../components/cards/ProductCard";
 
 const HomeScreen = () => {
   return (
     <AppSafeView>
       <HomeHeader />
-      <Text style={{ fontSize: 60 }}>HomeScreen</Text>
-      <Text style={{ fontSize: 60, fontFamily: AppFonts.Bold }}>
-        HomeScreen
-      </Text>
-      <Text style={{ fontSize: 60, fontFamily: AppFonts.Medium }}>
-        HomeScreen
-      </Text>
+
+      <ProductCard
+        title="iPhone 15"
+        price="1200"
+        imageUrl=""
+        onPress={() => console.log("pressed")}
+      />
     </AppSafeView>
   );
 };
