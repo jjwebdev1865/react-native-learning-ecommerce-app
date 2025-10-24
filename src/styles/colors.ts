@@ -2,6 +2,7 @@ export const AppColors = {
   primary: "#000",
   white: "#FFF",
   black: "#000",
+  red: 'red',
   lightGray: "#f0f0f0",
   background: "#f6f6f6",
   disabledGray: "D3D3D3",
