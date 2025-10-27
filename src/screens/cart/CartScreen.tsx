@@ -8,8 +8,10 @@ import TotalsView from "../../components/cart/TotalsView";
 import { products } from "../../data/products";
 import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
 import AppButton from "../../components/buttons/AppButton";
+import { useNavigation } from "@react-navigation/native";
 
 const CartScreen = () => {
+  const navigation = useNavigation();
   return (
     <AppSafeView>
       <HomeHeader />
@@ -35,7 +37,7 @@ const CartScreen = () => {
       <TotalsView itemPrice={120} />
       <AppButton
         title="To Checkout"
-        onPress={() => console.log("to checkout clicked")}
+        onPress={() => navigation.navigate("CheckoutScreen")}
       />
     </AppSafeView>
   );
