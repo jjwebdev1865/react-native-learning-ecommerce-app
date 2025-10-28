@@ -10,7 +10,11 @@ interface ITotalsViewProps {
 }
 
 const TotalsView = ({ itemPrice }: ITotalsViewProps) => {
-  const total = itemPrice + SHIPPING_FEE + TAXES;
+  let total = 0;
+  if (itemPrice !== 0) {
+    total = itemPrice + SHIPPING_FEE + TAXES;
+  }
+  
   return (
     <View>
       <View style={styles.row}>

@@ -3,6 +3,8 @@ import FlashMessage from "react-native-flash-message";
 import { NavigationContainer } from "@react-navigation/native";
 import MainAppStack from "./src/navigation/MainAppStack";
 import { useFonts } from "expo-font";
+import { Provider } from "react-redux";
+import { store } from "./src/store/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -16,12 +18,14 @@ export default function App() {
 
   return (
     <>
-      <NavigationContainer>
-        {/* showMessage() triggers */}
-        <FlashMessage position="top" />
+      <Provider store={store}>
+        <NavigationContainer>
+          {/* showMessage() triggers */}
+          <FlashMessage position="top" />
 
-        <MainAppStack />
-      </NavigationContainer>
+          <MainAppStack />
+        </NavigationContainer>
+      </Provider>
     </>
   );
 }
