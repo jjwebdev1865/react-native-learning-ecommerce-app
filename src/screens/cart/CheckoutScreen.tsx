@@ -32,15 +32,18 @@ const schema = yup
   })
   .required();
 
+type FormData = yup.InferType<typeof schema>;
+
 const CheckoutScreen = () => {
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const saveOrder = (data: any) => {
-    Alert.alert("Order Placed", data);
+  const saveOrder = (data: FormData) => {
+    Alert.alert("Order Placed", JSON.stringify(data, null, 2));
     console.log("Order Data: ", data);
   };
+
   return (
     <AppSafeView>
       <View style={{ paddingHorizontal: sharedPaddingHorizontal }}>
