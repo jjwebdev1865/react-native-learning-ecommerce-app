@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import React from "react";
 import AppSafeView from "../../components/views/AppSafeView";
 import {
@@ -7,26 +7,64 @@ import {
 } from "../../styles/sharedStyles";
 import { scale, verticalScale } from "react-native-size-matters";
 import { AppColors } from "../../styles/colors";
-import AppTextInput from "../../components/inputs/AppTextInput";
 import AppButton from "../../components/buttons/AppButton";
 import { IS_ANDROID, IS_IOS } from "../../constants/constant";
+import AppTextInputController from "../../components/inputs/AppTextInputController";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup
+  .object({
+    fullName: yup
+      .string()
+      .required("Name is required")
+      .min(3, "Name is too short"),
+    phoneNumber: yup
+      .string()
+      .required("Phone number is required")
+      .matches(/^[0-9]+$/, "Must be only digits")
+      .min(10, "Phone number is too short"),
+    detailedAddress: yup
+      .string()
+      .required("Address is required")
+      .min(15, "Address is too short"),
+  })
+  .required();
 
 const CheckoutScreen = () => {
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const saveOrder = (data: any) => {
+    Alert.alert("Order Placed", data);
+    console.log("Order Data: ", data);
+  };
   return (
     <AppSafeView>
       <View style={{ paddingHorizontal: sharedPaddingHorizontal }}>
         <View style={styles.inputsContainer}>
-          <AppTextInput placeholder="Full Name" />
-          <AppTextInput placeholder="Phone Number" />
-          <AppTextInput placeholder="Address" />
+          <AppTextInputController
+            placeholder="Full Name"
+            name="fullName"
+            control={control}
+          />
+          <AppTextInputController
+            placeholder="Phone Number"
+            name="phoneNumber"
+            control={control}
+          />
+          <AppTextInputController
+            placeholder="Detailed Address"
+            name="detailedAddress"
+            control={control}
+          />
         </View>
       </View>
 
       <View style={styles.buttonContainer}>
-        <AppButton
-          title="Confirm"
-          onPress={() => console.log("Confirm checkout clicked")}
-        />
+        <AppButton title="Confirm" onPress={handleSubmit(saveOrder)} />
       </View>
     </AppSafeView>
   );
