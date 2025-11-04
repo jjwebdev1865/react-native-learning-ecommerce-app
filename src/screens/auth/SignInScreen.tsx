@@ -12,6 +12,8 @@ import AppTextInputController from "../../components/inputs/AppTextInputControll
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 const schema = yup
   .object({
@@ -39,8 +41,19 @@ const SignInScreen = () => {
     resolver: yupResolver(schema),
   });
 
-  const handleLogin = (data: FormData) => {
-    navigation.navigate("MainAppBottomTabs");
+  const handleLogin = async (data: FormData) => {
+    console.log("Login data:", data);
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      navigation.navigate("MainAppBottomTabs");
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   return (
