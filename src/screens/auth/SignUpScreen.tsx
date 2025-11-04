@@ -1,4 +1,4 @@
-import { Image, StyleSheet } from "react-native";
+import { Alert, Image, StyleSheet } from "react-native";
 import React from "react";
 import AppSafeView from "../../components/views/AppSafeView";
 import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
@@ -45,6 +45,7 @@ const SignUpScreen = () => {
 
   const handleSignUp = (data: FormData) => {
     console.log("Create New Account pressed");
+    Alert.alert("Account Created", JSON.stringify(data, null, 2));
   };
 
   return (
