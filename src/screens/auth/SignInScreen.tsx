@@ -14,6 +14,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
+import { showMessage } from "react-native-flash-message";
 
 const schema = yup
   .object({
@@ -45,14 +46,31 @@ const SignInScreen = () => {
     console.log("Login data:", data);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
+      // TODO: having network issues. need to fix
+      // const userCredential = await signInWithEmailAndPassword(
+      //   auth,
+      //   data.email,
+      //   data.password
+      // );
       navigation.navigate("MainAppBottomTabs");
-    } catch (error) {
+    } catch (error: any) {
+      let errorMessage = ''
       console.error("Login error:", error);
+      // NOTE: can return specific errors from firebase error codes
+      if (error.code === 'auth/network-request-failed') {
+        errorMessage = 'Network error, please try again.'
+      } else if (error.code === 'auth/user-not-found') {
+        errorMessage = 'User not found.'
+      } else if (error.code === 'auth/invalid-credential') {
+        errorMessage = 'Wrong email or password.'
+      } else {
+        errorMessage = 'An unexpected error occurred. Please try again.'
+      }
+
+      showMessage({
+        type: "danger",
+        message: errorMessage
+      })
     }
   };
 

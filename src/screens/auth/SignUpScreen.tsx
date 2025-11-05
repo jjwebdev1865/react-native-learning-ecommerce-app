@@ -12,6 +12,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AppTextInputController from "../../components/inputs/AppTextInputController";
 import { useForm } from "react-hook-form";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { showMessage } from "react-native-flash-message";
 
 const schema = yup
   .object({
@@ -39,13 +42,44 @@ type FormData = yup.InferType<typeof schema>;
 const SignUpScreen = () => {
   const navigation = useNavigation();
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
-  const handleSignUp = (data: FormData) => {
-    console.log("Create New Account pressed");
-    Alert.alert("Account Created", JSON.stringify(data, null, 2));
+  const handleSignUp = async (data: FormData) => {
+    try {
+      console.log("Create New Account pressed");
+
+      // TODO: Constantly getting network error. need to figure out why
+      // const userCredential = await createUserWithEmailAndPassword(
+      //   auth,
+      //   data.email,
+      //   data.password
+      // );
+
+      Alert.alert("Account Created");
+      navigation.navigate("MainAppBottomTabs");
+      // return userCredential.user;
+    } catch (error: any) {
+      let errorMessage = "";
+      console.error("Sign Up error:", error);
+      if (error.code === "auth/network-request-failed") {
+        errorMessage = "Network error, please try again.";
+      } else if (error.code === "auth/email-already-in-use") {
+        errorMessage = "This email is already in use";
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = "The email address is invalid.";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "The password is too weak.";
+      } else {
+        errorMessage = "An error occurred during sign-up";
+      }
+
+      showMessage({
+        type: "danger",
+        message: errorMessage,
+      });
+    }
   };
 
   return (
