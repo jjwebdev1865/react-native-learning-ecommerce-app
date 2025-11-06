@@ -15,6 +15,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { showMessage } from "react-native-flash-message";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../store/reducers/userSlice";
+import { mockUserCredentialUser } from "./SignUpScreen";
 
 const schema = yup
   .object({
@@ -37,40 +40,49 @@ type FormData = yup.InferType<typeof schema>;
 
 const SignInScreen = () => {
   const navigation = useNavigation();
+  const useFirebase = false;
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
 
+  const dispatch = useDispatch()
+
   const handleLogin = async (data: FormData) => {
     console.log("Login data:", data);
 
     try {
-      // TODO: having network issues. need to fix
-      // const userCredential = await signInWithEmailAndPassword(
-      //   auth,
-      //   data.email,
-      //   data.password
-      // );
+      if (useFirebase) {
+        // TODO: having network issues. need to fix
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          data.email,
+          data.password
+        );
+        console.log("User logged in:", JSON.stringify(userCredential, null, 2));
+        dispatch(setUserData(userCredential.user))
+      } else {
+        dispatch(setUserData(mockUserCredentialUser as any))
+      }
       navigation.navigate("MainAppBottomTabs");
     } catch (error: any) {
-      let errorMessage = ''
+      let errorMessage = "";
       console.error("Login error:", error);
       // NOTE: can return specific errors from firebase error codes
-      if (error.code === 'auth/network-request-failed') {
-        errorMessage = 'Network error, please try again.'
-      } else if (error.code === 'auth/user-not-found') {
-        errorMessage = 'User not found.'
-      } else if (error.code === 'auth/invalid-credential') {
-        errorMessage = 'Wrong email or password.'
+      if (error.code === "auth/network-request-failed") {
+        errorMessage = "Network error, please try again.";
+      } else if (error.code === "auth/user-not-found") {
+        errorMessage = "User not found.";
+      } else if (error.code === "auth/invalid-credential") {
+        errorMessage = "Wrong email or password.";
       } else {
-        errorMessage = 'An unexpected error occurred. Please try again.'
+        errorMessage = "An unexpected error occurred. Please try again.";
       }
 
       showMessage({
         type: "danger",
-        message: errorMessage
-      })
+        message: errorMessage,
+      });
     }
   };
 

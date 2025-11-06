@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { showMessage } from "react-native-flash-message";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../store/reducers/userSlice";
 
 const schema = yup
   .object({
@@ -39,8 +41,18 @@ const schema = yup
 
 type FormData = yup.InferType<typeof schema>;
 
+export const mockUserCredentialUser = {
+  uuid: '12345',
+  email: 'test@gmail.com',
+  emailVerified: false,
+  isAnonymous: false,
+  providerData: [],
+}
+
 const SignUpScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const useFirebase = false;
 
   const { control, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -49,13 +61,18 @@ const SignUpScreen = () => {
   const handleSignUp = async (data: FormData) => {
     try {
       console.log("Create New Account pressed");
-
-      // TODO: Constantly getting network error. need to figure out why
-      // const userCredential = await createUserWithEmailAndPassword(
-      //   auth,
-      //   data.email,
-      //   data.password
-      // );
+      if (useFirebase) {
+        // TODO: Constantly getting network error. need to figure out why
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          data.email,
+          data.password
+        );
+        dispatch(setUserData(userCredential.user))
+      } else {
+        // Mock dispatch for testing without Firebase
+        dispatch(setUserData(mockUserCredentialUser as any));
+      }
 
       Alert.alert("Account Created");
       navigation.navigate("MainAppBottomTabs");
