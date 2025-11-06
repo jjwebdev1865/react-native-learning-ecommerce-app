@@ -68,10 +68,15 @@ const SignUpScreen = () => {
           data.email,
           data.password
         );
-        dispatch(setUserData(userCredential.user))
+        const userDataObj = {
+          uid: userCredential.user.uid,
+        }
+        dispatch(setUserData(userDataObj))
       } else {
         // Mock dispatch for testing without Firebase
-        dispatch(setUserData(mockUserCredentialUser as any));
+        dispatch(setUserData({
+          uid: mockUserCredentialUser.uuid,
+        }));
       }
 
       Alert.alert("Account Created");

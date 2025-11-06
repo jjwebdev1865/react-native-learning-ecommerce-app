@@ -74,12 +74,17 @@ const CheckoutScreen = () => {
       };
 
       if (useFirebase) {
+        // This will store the order under the specific user
         const userOrderRef = collection(
           doc(db, "users", userData.uid),
           "orders"
         );
         // should be able to see this in the db under orders collections
-        const orderRef = await addDoc(userOrderRef, orderBody);
+        await addDoc(userOrderRef, orderBody);
+
+        // This will store the order under a general collection for tracking
+        const ordersRef = collection(db, "orders");
+        await addDoc(ordersRef, orderBody)
       }
 
       showMessage({ type: "success", message: "Order placed successfully!" });

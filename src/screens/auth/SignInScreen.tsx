@@ -60,9 +60,14 @@ const SignInScreen = () => {
           data.password
         );
         console.log("User logged in:", JSON.stringify(userCredential, null, 2));
-        dispatch(setUserData(userCredential.user))
+        const userDataObj = {
+          uid: userCredential.user.uid,
+        }
+        dispatch(setUserData(userDataObj))
       } else {
-        dispatch(setUserData(mockUserCredentialUser as any))
+        dispatch(setUserData({
+          uid: mockUserCredentialUser.uuid,
+        }))
       }
       navigation.navigate("MainAppBottomTabs");
     } catch (error: any) {
