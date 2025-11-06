@@ -8,13 +8,23 @@ import {
 import { scale, verticalScale } from "react-native-size-matters";
 import { AppColors } from "../../styles/colors";
 import AppButton from "../../components/buttons/AppButton";
-import { IS_ANDROID, IS_IOS } from "../../constants/constant";
+import {
+  IS_ANDROID,
+  IS_IOS,
+  SHIPPING_FEE,
+  TAXES,
+} from "../../constants/constant";
 import AppTextInputController from "../../components/inputs/AppTextInputController";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { addDoc, collection, doc } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import { showMessage } from "react-native-flash-message";
+import { useNavigation } from "@react-navigation/native";
+import { emptyCart } from "../../store/reducers/cartSlice";
 
 const schema = yup
   .object({
@@ -37,16 +47,51 @@ const schema = yup
 type FormData = yup.InferType<typeof schema>;
 
 const CheckoutScreen = () => {
+  const useFirebase = false;
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
-  const { userData } = useSelector((state: RootState) => state.userSlice);
-  console.log('userdata', userData)
 
-  const saveOrder = (data: FormData) => {
-    Alert.alert("Order Placed", JSON.stringify(data, null, 2));
-    console.log("Order Data: ", data);
+  const { userData } = useSelector((state: RootState) => state.userSlice);
+  const { items } = useSelector((state: RootState) => state.cartSlice);
+  const totalProductsPriceSum = items.reduce(
+    (acc, item) => acc + item.price,
+    0
+  );
+  const totalPrice = totalProductsPriceSum + TAXES + SHIPPING_FEE; // Add tax, shipping, etc. if needed
+
+  const saveOrder = async (formData: FormData) => {
+    try {
+      const orderBody = {
+        ...formData,
+        items,
+        totalProductsPriceSum,
+        createdAt: new Date(),
+        totalPrice,
+      };
+
+      if (useFirebase) {
+        const userOrderRef = collection(
+          doc(db, "users", userData.uid),
+          "orders"
+        );
+        // should be able to see this in the db under orders collections
+        const orderRef = await addDoc(userOrderRef, orderBody);
+      }
+
+      showMessage({ type: "success", message: "Order placed successfully!" });
+      navigation.goBack();
+      dispatch(emptyCart());
+    } catch (error) {
+      console.error("Error saving order: ", error);
+      showMessage({
+        type: "danger",
+        message: "Failed to place order. Please try again.",
+      });
+    }
   };
 
   return (
