@@ -14,12 +14,6 @@ const ProfileScreen = () => {
     <AppSafeView>
       <HomeHeader />
 
-      <AppText
-        variant="bold"
-        style={{ fontSize: scale(18), marginTop: verticalScale(10) }}
-      >
-        Hello, Jim
-      </AppText>
       <View style={{ paddingHorizontal: sharedPaddingHorizontal }}>
         <ProfileSectionButton
           title="My Orders"

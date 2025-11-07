@@ -1,38 +1,27 @@
 import { FlatList, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OrderDetails from "../../components/OrderDetails";
 import AppSafeView from "../../components/views/AppSafeView";
 import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
-
-export type OrderDetail = {
-  id: number;
-  totalPrice: number;
-  completedDate: Date;
-};
-
-const dummyData: OrderDetail[] = [
-  {
-    id: 1,
-    totalPrice: 150,
-    completedDate: new Date(),
-  },
-  {
-    id: 2,
-    totalPrice: 90,
-    completedDate: new Date(),
-  },
-  {
-    id: 3,
-    totalPrice: 250,
-    completedDate: new Date(),
-  },
-];
+import { TOrders, fetchUserOrders } from "../../config/dataServices";
 
 const MyOrdersScreen = () => {
+  const useFirebase = false;
+  const [ordersList, setOrdersList] = useState<TOrders>();
+
+  const getOrders = async () => {
+    const response = (await fetchUserOrders(useFirebase)) as TOrders;
+    setOrdersList(response);
+  };
+
+  useEffect(() => {
+    getOrders();
+  }, []);
+
   return (
     <AppSafeView style={{ paddingHorizontal: sharedPaddingHorizontal }}>
       <FlatList
-        data={dummyData}
+        data={(ordersList as TOrders).data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <OrderDetails order={item} />}
       />

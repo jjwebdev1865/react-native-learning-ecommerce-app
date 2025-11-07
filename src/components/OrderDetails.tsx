@@ -1,16 +1,26 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
-import { OrderDetail } from "../screens/profile/MyOrdersScreen";
 import { scale, verticalScale } from "react-native-size-matters";
 import { commonStyles } from "../styles/sharedStyles";
 import { AppColors } from "../styles/colors";
 import AppText from "./texts/AppText";
+import { OrderDetail } from "../config/dataServices";
+import { getDateFromFirestoreTimestamp } from "../helpers/dateTimeHelper";
 
 interface IOrderDetailsProps {
   order: OrderDetail;
 }
 
 const OrderDetails = ({ order }: IOrderDetailsProps) => {
+  const useFirebase = false;
+
+  let date = "";
+  if (useFirebase) {
+    date = getDateFromFirestoreTimestamp(order.completedDate);
+    console.log("need to update the displayed component to, ", date);
+  } else {
+    date = order.completedDate.toDateString();
+  }
   return (
     <View style={styles.container}>
       <AppText style={styles.headerText}>ORDER DETAILS:</AppText>
@@ -21,9 +31,7 @@ const OrderDetails = ({ order }: IOrderDetailsProps) => {
         </View>
         <View style={styles.row}>
           <AppText>Date:</AppText>
-          <AppText style={styles.textValue}>
-            {order.completedDate.toDateString()}
-          </AppText>
+          <AppText style={styles.textValue}>{date}</AppText>
         </View>
       </View>
     </View>
