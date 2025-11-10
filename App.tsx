@@ -5,6 +5,8 @@ import MainAppStack from "./src/navigation/MainAppStack";
 import { useFonts } from "expo-font";
 import { Provider } from "react-redux";
 import { store } from "./src/store/store";
+import i18n from "./src/localization/i18n";
+import { I18nextProvider } from "react-i18next";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,12 +21,14 @@ export default function App() {
   return (
     <>
       <Provider store={store}>
-        <NavigationContainer>
-          {/* showMessage() triggers */}
-          <FlashMessage position="top" />
+        <I18nextProvider i18n={i18n}>
+          <NavigationContainer>
+            {/* showMessage() triggers */}
+            <FlashMessage position="top" />
 
-          <MainAppStack />
-        </NavigationContainer>
+            <MainAppStack />
+          </NavigationContainer>
+        </I18nextProvider>
       </Provider>
     </>
   );

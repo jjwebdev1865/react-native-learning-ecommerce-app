@@ -7,9 +7,15 @@ import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
 import AppText from "../../components/texts/AppText";
 import { scale, verticalScale } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
+import { SheetManager } from "react-native-actions-sheet";
+import LanguageBottomSheet from "../../components/language/LanguageBottomSheet";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+
+  const handleLanguages = () => {
+    SheetManager.show("LANG_SHEET");
+  };
   return (
     <AppSafeView>
       <HomeHeader />
@@ -19,15 +25,14 @@ const ProfileScreen = () => {
           title="My Orders"
           onPress={() => navigation.navigate("MyOrdersScreen")}
         />
-        <ProfileSectionButton
-          title="Language"
-          onPress={() => console.log("Language Clicked")}
-        />
+        <ProfileSectionButton title="Language" onPress={handleLanguages} />
         <ProfileSectionButton
           title="Logout"
           onPress={() => console.log("Logout Clicked")}
         />
       </View>
+
+      <LanguageBottomSheet />
     </AppSafeView>
   );
 };
