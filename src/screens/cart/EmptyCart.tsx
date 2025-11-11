@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import { scale, verticalScale } from "react-native-size-matters";
 import AppText from "../../components/texts/AppText";
@@ -7,8 +7,10 @@ import { AppColors } from "../../styles/colors";
 import AppButton from "../../components/buttons/AppButton";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 const EmptyCart = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
 
   return (
@@ -19,13 +21,18 @@ const EmptyCart = () => {
         color={AppColors.primary}
         style={styles.icon}
       />
-      <AppText style={styles.title}>Your cart is empty</AppText>
+      <AppText style={styles.title}>
+        {t("cart_empty_title", "Your cart is empty")}
+      </AppText>
       <AppText style={styles.subTitle}>
-        Browse our products and find something you like.
+        {t(
+          "cart_empty_browse_products",
+          "Browse our products and find something you like."
+        )}
       </AppText>
 
       <AppButton
-        title="Start Shopping"
+        title={t("cart_empty_start_shopping", "Start Shopping")}
         style={styles.button}
         onPress={() => navigation.navigate("HomeScreen")}
       />

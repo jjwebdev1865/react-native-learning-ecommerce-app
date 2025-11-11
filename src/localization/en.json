@@ -1,0 +1,46 @@
+{
+  "app_title": "Smart E-Commerce",
+
+  "cart_to_checkout": "To Checkout",
+  "cart_empty_title": "Your cart is empty",
+  "cart_empty_browse_products": "Browse our products and find something you like.",
+  "cart_empty_start_shopping": "Start Shopping",
+
+  "checkout_full_name_placeholder": "Full Name",
+  "checkout_phone_number_placeholder": "Phone Number",
+  "checkout_detailed_address_placeholder": "Detailed Address",
+  "checkout_confirm_button": "Confirm",
+  "checkout_order_error": "Failed to place order. Please try again.",
+  "checkout_order_success": "Order placed successfully!",
+
+  "profile_change_language": "Change Language",
+  "profile_confirm_button_label": "Confirm",
+  "profile_my_orders_label": "My Orders",
+  "profile_language_label": "Language",
+  "profile_logout_button": "Logout",
+
+  "signin_button": "Sign In",
+  "signup_button": "Sign Up",
+  "signin_password_placeholder": "Password",
+  "signin_password_email": "Email",
+  "signin_network_error": "Network error, please try again.",
+  "signin_user_not_found": "User not found.",
+  "signin_invalid_credential": "Wrong email or password.",
+  "signin_error_unknown": "An unknown error occurred. Please try again.",
+
+  "signup_user_name_placeholder": "User name",
+  "signup_user_name_email": "Email",
+  "signup_user_name_password": "Password",
+  "signup_create_new_account_button": "Create New Account",
+  "signup_go_to_signin": "Go To Sign In",
+  "signup_network_request_failed": "Network error, please try again.",
+  "signup_email_already_in_use": "This email is already in use.",
+  "signup_email_invalid": "The email address is invalid.",
+  "signup_weak_password": "The password is too weak.",
+  "signup_error_unknown": "An error occurred during sign-up.",
+
+  "total_price": "Items Price:",
+  "total_taxes": "Taxes:",
+  "total_shipping_fee": "Shipping Fee:",
+  "total_total_amount": "Total:"
+}

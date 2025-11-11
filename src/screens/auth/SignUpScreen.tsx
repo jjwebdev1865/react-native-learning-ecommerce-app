@@ -17,6 +17,7 @@ import { auth } from "../../config/firebase";
 import { showMessage } from "react-native-flash-message";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/reducers/userSlice";
+import { useTranslation } from "react-i18next";
 
 const schema = yup
   .object({
@@ -42,16 +43,17 @@ const schema = yup
 type FormData = yup.InferType<typeof schema>;
 
 export const mockUserCredentialUser = {
-  uuid: '12345',
-  email: 'test@gmail.com',
+  uuid: "12345",
+  email: "test@gmail.com",
   emailVerified: false,
   isAnonymous: false,
   providerData: [],
-}
+};
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const useFirebase = false;
 
   const { control, handleSubmit } = useForm<FormData>({
@@ -70,13 +72,15 @@ const SignUpScreen = () => {
         );
         const userDataObj = {
           uid: userCredential.user.uid,
-        }
-        dispatch(setUserData(userDataObj))
+        };
+        dispatch(setUserData(userDataObj));
       } else {
         // Mock dispatch for testing without Firebase
-        dispatch(setUserData({
-          uid: mockUserCredentialUser.uuid,
-        }));
+        dispatch(
+          setUserData({
+            uid: mockUserCredentialUser.uuid,
+          })
+        );
       }
 
       Alert.alert("Account Created");
@@ -86,15 +90,27 @@ const SignUpScreen = () => {
       let errorMessage = "";
       console.error("Sign Up error:", error);
       if (error.code === "auth/network-request-failed") {
-        errorMessage = "Network error, please try again.";
+        errorMessage = t(
+          "signup_network_request_failed",
+          "Network error, please try again."
+        );
       } else if (error.code === "auth/email-already-in-use") {
-        errorMessage = "This email is already in use";
+        errorMessage = t(
+          "signup_email_already_in_use",
+          "This email is already in use"
+        );
       } else if (error.code === "auth/invalid-email") {
-        errorMessage = "The email address is invalid.";
+        errorMessage = t(
+          "signup_email_invalid",
+          "The email address is invalid."
+        );
       } else if (error.code === "auth/weak-password") {
-        errorMessage = "The password is too weak.";
+        errorMessage = t("signup_weak_password", "The password is too weak.");
       } else {
-        errorMessage = "An error occurred during sign-up";
+        errorMessage = t(
+          "signup_error_unknown",
+          "An error occurred during sign-up"
+        );
       }
 
       showMessage({
@@ -109,27 +125,27 @@ const SignUpScreen = () => {
       <Image source={IMAGES.appLogo} style={styles.logo} />
 
       <AppTextInputController
-        placeholder="User name"
+        placeholder={t("signup_user_name_placeholder", "User name")}
         name="userName"
         control={control}
       />
       <AppTextInputController
-        placeholder="Email"
+        placeholder={t("signup_user_name_email", "Email")}
         name="email"
         control={control}
       />
       <AppTextInputController
-        placeholder="Password"
+        placeholder={t("signup_user_name_password", "Password")}
         name="password"
         control={control}
       />
 
       <AppButton
-        title="Create New Account"
+        title={t("signup_create_new_account_button", "Create New Account")}
         onPress={handleSubmit(handleSignUp)}
       />
       <AppButton
-        title="Go To Sign In"
+        title={t("signup_go_to_signin", "Go To Sign In")}
         style={styles.goToSignInButton}
         textColor={AppColors.primary}
         onPress={() => {

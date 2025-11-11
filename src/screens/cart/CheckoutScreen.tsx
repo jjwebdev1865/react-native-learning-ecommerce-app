@@ -25,6 +25,7 @@ import { db } from "../../config/firebase";
 import { showMessage } from "react-native-flash-message";
 import { useNavigation } from "@react-navigation/native";
 import { emptyCart } from "../../store/reducers/cartSlice";
+import { useTranslation } from "react-i18next";
 
 const schema = yup
   .object({
@@ -50,6 +51,7 @@ const CheckoutScreen = () => {
   const useFirebase = false;
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
@@ -84,17 +86,23 @@ const CheckoutScreen = () => {
 
         // This will store the order under a general collection for tracking
         const ordersRef = collection(db, "orders");
-        await addDoc(ordersRef, orderBody)
+        await addDoc(ordersRef, orderBody);
       }
 
-      showMessage({ type: "success", message: "Order placed successfully!" });
+      showMessage({
+        type: "success",
+        message: t("checkout_order_success", "Order placed successfully!"),
+      });
       navigation.goBack();
       dispatch(emptyCart());
     } catch (error) {
       console.error("Error saving order: ", error);
       showMessage({
         type: "danger",
-        message: "Failed to place order. Please try again.",
+        message: t(
+          "checkout_order_error",
+          "Failed to place order. Please try again."
+        ),
       });
     }
   };
@@ -104,17 +112,20 @@ const CheckoutScreen = () => {
       <View style={{ paddingHorizontal: sharedPaddingHorizontal }}>
         <View style={styles.inputsContainer}>
           <AppTextInputController
-            placeholder="Full Name"
+            placeholder={t("checkout_full_name_placeholder", "Full Name")}
             name="fullName"
             control={control}
           />
           <AppTextInputController
-            placeholder="Phone Number"
+            placeholder={t("checkout_phone_number_placeholder", "Phone Number")}
             name="phoneNumber"
             control={control}
           />
           <AppTextInputController
-            placeholder="Detailed Address"
+            placeholder={t(
+              "checkout_detailed_address_placeholder",
+              "Detailed Address"
+            )}
             name="detailedAddress"
             control={control}
           />
@@ -122,7 +133,10 @@ const CheckoutScreen = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <AppButton title="Confirm" onPress={handleSubmit(saveOrder)} />
+        <AppButton
+          title={t("checkout_confirm_button", "Confirm")}
+          onPress={handleSubmit(saveOrder)}
+        />
       </View>
     </AppSafeView>
   );

@@ -4,35 +4,43 @@ import { scale, verticalScale } from "react-native-size-matters";
 import AppText from "../texts/AppText";
 import { AppColors } from "../../styles/colors";
 import { SHIPPING_FEE, TAXES } from "../../constants/constant";
+import { useTranslation } from "react-i18next";
 
 interface ITotalsViewProps {
   itemPrice: number;
 }
 
 const TotalsView = ({ itemPrice }: ITotalsViewProps) => {
+  const { t } = useTranslation();
   let total = 0;
   if (itemPrice !== 0) {
     total = itemPrice + SHIPPING_FEE + TAXES;
   }
-  
+
   return (
     <View>
       <View style={styles.row}>
-        <AppText style={styles.textTitle}>Items Price:</AppText>
+        <AppText style={styles.textTitle}>
+          {t("total_price", "Total Price:")}
+        </AppText>
         <AppText style={styles.textPrice}>${itemPrice}</AppText>
       </View>
       <View style={styles.row}>
-        <AppText style={styles.textTitle}>Taxes:</AppText>
+        <AppText style={styles.textTitle}>{t("total_taxes", "Taxes:")}</AppText>
         <AppText style={styles.textPrice}>${TAXES}</AppText>
       </View>
       <View style={styles.row}>
-        <AppText style={styles.textTitle}>Shipping Fee:</AppText>
+        <AppText style={styles.textTitle}>
+          {t("total_shipping_fee", "Shipping Fee:")}
+        </AppText>
         <AppText style={styles.textPrice}>${SHIPPING_FEE}</AppText>
       </View>
 
       <View style={styles.separator} />
       <View style={styles.row}>
-        <AppText style={styles.textTitle}>Total:</AppText>
+        <AppText style={styles.textTitle}>
+          {t("total_total_amount", "Total:")}
+        </AppText>
         <AppText style={styles.textPrice}>${total.toString()}</AppText>
       </View>
     </View>

@@ -5,13 +5,14 @@ import HomeHeader from "../../components/headers/HomeHeader";
 import ProfileSectionButton from "../../components/buttons/ProfileSectionButton";
 import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
 import AppText from "../../components/texts/AppText";
-import { scale, verticalScale } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
 import { SheetManager } from "react-native-actions-sheet";
 import LanguageBottomSheet from "../../components/language/LanguageBottomSheet";
+import { useTranslation } from "react-i18next";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const handleLanguages = () => {
     SheetManager.show("LANG_SHEET");
@@ -22,12 +23,15 @@ const ProfileScreen = () => {
 
       <View style={{ paddingHorizontal: sharedPaddingHorizontal }}>
         <ProfileSectionButton
-          title="My Orders"
+          title={t("profile_my_orders_label", "My Orders")}
           onPress={() => navigation.navigate("MyOrdersScreen")}
         />
-        <ProfileSectionButton title="Language" onPress={handleLanguages} />
         <ProfileSectionButton
-          title="Logout"
+          title={t("profile_language_label", "Language")}
+          onPress={handleLanguages}
+        />
+        <ProfileSectionButton
+          title={t("profile_logout_button", "Logout")}
           onPress={() => console.log("Logout Clicked")}
         />
       </View>

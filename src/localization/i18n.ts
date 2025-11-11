@@ -1,9 +1,16 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import en from "./en.json";
+import de from "./de.json";
 
 const LANGUAGES = {
-  en: {},
+  en: {
+    translation: en,
+  },
   es: {},
+  de: {
+    translation: de,
+  },
 };
 
 i18n.use(initReactI18next).init({
@@ -16,7 +23,7 @@ i18n.use(initReactI18next).init({
   },
   interpolation: {
     escapeValue: false,
-  }
+  },
 });
 
 export default i18n;

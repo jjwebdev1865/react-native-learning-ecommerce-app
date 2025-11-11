@@ -1,0 +1,46 @@
+{
+  "app_title": "Intelligenter E-Commerce",
+
+  "cart_to_checkout": "Zur Kasse",
+  "cart_empty_title": "Ihr Warenkorb ist leer",
+  "cart_empty_browse_products": "Stöbern Sie durch unsere Produkte und finden Sie etwas, das Ihnen gefällt.",
+  "cart_empty_start_shopping": "Jetzt einkaufen",
+
+  "checkout_full_name_placeholder": "Vollständiger Name",
+  "checkout_phone_number_placeholder": "Telefonnummer",
+  "checkout_detailed_address_placeholder": "Detaillierte Adresse",
+  "checkout_confirm_button": "Bestätigen",
+  "checkout_order_error": "Bestellung konnte nicht aufgegeben werden. Bitte versuchen Sie es erneut.",
+  "checkout_order_success": "Bestellung erfolgreich aufgegeben!",
+
+  "profile_change_language": "Sprache ändern",
+  "profile_confirm_button_label": "Bestätigen",
+  "profile_my_orders_label": "Meine Bestellungen",
+  "profile_language_label": "Sprache",
+  "profile_logout_button": "Abmelden",
+
+  "signin_button": "Anmelden",
+  "signup_button": "Melden Sie sich an",
+  "signin_password_placeholder": "Passwort",
+  "signin_password_email": "E-Mail",
+  "signin_network_error": "Netzwerkfehler, bitte versuchen Sie es erneut.",
+  "signin_user_not_found": "Benutzer nicht gefunden.",
+  "signin_invalid_credential": "Falsche E-Mail-Adresse oder falsches Passwort.",
+  "signin_error_unknown": "Es ist ein unbekannter Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+
+  "signup_user_name_placeholder": "Benutzername",
+  "signup_user_name_email": "E-Mail",
+  "signup_user_name_password": "Passwort",
+  "signup_create_new_account_button": "Neues Konto erstellen",
+  "signup_go_to_signin": "Zum Anmelden",
+  "signup_network_request_failed": "Netzwerkfehler, bitte versuchen Sie es erneut.",
+  "signup_email_already_in_use": "Diese E-Mail-Adresse ist bereits in Gebrauch.",
+  "signup_email_invalid": "Die E-Mail-Adresse ist ungültig.",
+  "signup_weak_password": "Das Passwort ist zu schwach.",
+  "signup_error_unknown": "ABei der Registrierung ist ein Fehler aufgetreten.",
+
+  "total_price": "Artikelpreis:",
+  "total_taxes": "Steuern:",
+  "total_shipping_fee": "Versandkosten:",
+  "total_total_amount": "Gesamt:"
+}

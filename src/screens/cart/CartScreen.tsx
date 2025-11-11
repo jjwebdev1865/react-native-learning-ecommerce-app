@@ -16,8 +16,10 @@ import {
   removeItemFromCart,
   removeProductFromCart,
 } from "../../store/reducers/cartSlice";
+import { useTranslation } from "react-i18next";
 
 const CartScreen = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { items } = useSelector((state: RootState) => state.cartSlice);
 
@@ -56,7 +58,7 @@ const CartScreen = () => {
           />
           <TotalsView itemPrice={totalProductsPriceSum} />
           <AppButton
-            title="To Checkout"
+            title={t("cart_to_checkout", "To Checkout")}
             onPress={() => navigation.navigate("CheckoutScreen")}
           />
         </View>
