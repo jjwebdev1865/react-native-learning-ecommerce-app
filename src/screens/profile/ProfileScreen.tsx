@@ -9,10 +9,13 @@ import { SheetManager } from "react-native-actions-sheet";
 import LanguageBottomSheet from "../../components/language/LanguageBottomSheet";
 import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const useFirebase = false;
 
   const handleLanguages = () => {
     SheetManager.show("LANG_SHEET");
@@ -21,6 +24,9 @@ const ProfileScreen = () => {
   const handleLogout = async () => {
     await AsyncStorage.removeItem("USER_DATA");
     navigation.navigate("AuthStack" as never);
+    if (useFirebase) {
+      await signOut(auth);
+    }
   };
   return (
     <AppSafeView>

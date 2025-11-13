@@ -8,12 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUserData } from "../store/reducers/userSlice";
 import { useEffect } from "react";
 import { RootState } from "../store/store";
+import { ActivityIndicator, View } from "react-native";
+import { AppColors } from "../styles/colors";
 
 const Stack = createStackNavigator();
 
 export default function MainAppStack() {
   const dispatch = useDispatch();
-  const { userData, isLoading } = useSelector((state: RootState) => state.userSlice);
+  const { userData, isLoading } = useSelector(
+    (state: RootState) => state.userSlice
+  );
 
   const isUserLoggedIn = async () => {
     try {
@@ -35,7 +39,11 @@ export default function MainAppStack() {
   }, []);
 
   if (isLoading) {
-    return null
+    return (
+      <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
+        <ActivityIndicator size="large" color={AppColors.primary} />
+      </View>
+    );
   }
 
   return (
