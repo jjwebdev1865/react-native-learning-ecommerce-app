@@ -3,40 +3,42 @@ import AuthStack from "./AuthStack";
 import MainAppBottomTabs from "./MainAppBottomTabs";
 import CheckoutScreen from "../screens/cart/CheckoutScreen";
 import MyOrdersScreen from "../screens/profile/MyOrdersScreen";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch, useSelector } from "react-redux";
-import { setLoading, setUserData } from "../store/reducers/userSlice";
-import { useEffect } from "react";
-import { RootState } from "../store/store";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { AppColors } from "../styles/colors";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 const Stack = createStackNavigator();
 
 export default function MainAppStack() {
-  const dispatch = useDispatch();
-  const { userData, isLoading } = useSelector(
-    (state: RootState) => state.userSlice
-  );
+  const useFirebase = false;
 
-  const isUserLoggedIn = async () => {
-    try {
-      const storedUserData = await AsyncStorage.getItem("USER_DATA");
-      console.log("Stored user data:", storedUserData);
-      if (storedUserData) {
-        dispatch(setUserData(JSON.parse(storedUserData)));
-      } else {
-        dispatch(setLoading(false));
-      }
-    } catch (error) {
-      console.error("Error retrieving user data from AsyncStorage:", error);
-      dispatch(setLoading(false));
-    }
-  };
+  const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState<object | null>(null);
 
   useEffect(() => {
-    isUserLoggedIn();
-  }, []);
+    if (!useFirebase) {
+      setIsLoading(false);
+      return;
+    }
+
+    // This is better then the commented code above. This will handle a auth state changes in real-time.
+    // an example will be a user logging out or being disabled by admins
+    // TODO: need to set up local storage for logging
+    onAuthStateChanged(auth, (userDataFromFirebase) => {
+      if (userData) {
+        // User is signed in.
+        console.log("Firebase user data:", userData);
+        setIsLoading(false);
+        setUserData(userDataFromFirebase);
+      } else {
+        // User is signed out.
+        console.log("No user is signed in.");
+        setIsLoading(false);
+      }
+    });
+  });
 
   if (isLoading) {
     return (
