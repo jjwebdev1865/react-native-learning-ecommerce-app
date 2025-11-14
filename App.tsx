@@ -4,9 +4,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import MainAppStack from "./src/navigation/MainAppStack";
 import { useFonts } from "expo-font";
 import { Provider } from "react-redux";
-import { store } from "./src/store/store";
+import { persistor, store } from "./src/store/store";
 import i18n from "./src/localization/i18n";
 import { I18nextProvider } from "react-i18next";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,12 +23,14 @@ export default function App() {
     <>
       <Provider store={store}>
         <I18nextProvider i18n={i18n}>
-          <NavigationContainer>
-            {/* showMessage() triggers */}
-            <FlashMessage position="top" />
+          <PersistGate persistor={persistor} >
+            <NavigationContainer>
+              {/* showMessage() triggers */}
+              <FlashMessage position="top" />
 
-            <MainAppStack />
-          </NavigationContainer>
+              <MainAppStack />
+            </NavigationContainer>
+          </PersistGate>
         </I18nextProvider>
       </Provider>
     </>
